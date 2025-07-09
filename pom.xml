@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>frutuoso.java10x</groupId>
-	<artifactId>EnventClean</artifactId>
+	<artifactId>EventClean</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>EnventClean</name>
 	<description>API para gerenciamento de eventos e locais, desenvolvido em java</description>

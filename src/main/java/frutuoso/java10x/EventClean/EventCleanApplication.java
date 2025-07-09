@@ -1,13 +1,13 @@
-package frutuoso.java10x.EnventClean;
+package frutuoso.java10x.EventClean;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class EnventCleanApplication {
+public class EventCleanApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(EnventCleanApplication.class, args);
+		SpringApplication.run(EventCleanApplication.class, args);
 	}
 
 }
