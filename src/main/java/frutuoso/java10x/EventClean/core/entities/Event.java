@@ -1,7 +1,5 @@
 package frutuoso.java10x.EventClean.core.entities;
-
 import frutuoso.java10x.EventClean.core.entities.enums.TypeEvent;
-
 import java.time.LocalDateTime;
 
 public record Event(
