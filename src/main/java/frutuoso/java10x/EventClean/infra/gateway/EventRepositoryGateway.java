@@ -5,6 +5,7 @@ import frutuoso.java10x.EventClean.infra.mapper.EventEntityMapper;
 import frutuoso.java10x.EventClean.infra.persistence.EventEntity;
 import frutuoso.java10x.EventClean.infra.persistence.EventRepository;
 import org.springframework.stereotype.Component;
+import java.util.List;
 
 
 @Component
@@ -19,8 +20,15 @@ public class EventRepositoryGateway implements EventGateway {
         this.eventEntityMapper = eventEntityMapper;
     }
 
+    @Override
+    public List<Event> listEvents() {
+        return eventRepository.findAll().stream().map(eventEntityMapper::toEventCore).toList();
+    }
+
+    @Override
     public Event createEvent(Event event) {
-         EventEntity newEvent = eventRepository.save(eventEntityMapper.toEntity(event));
-         return eventEntityMapper.toEvent(newEvent);
+        EventEntity eventEntity = eventEntityMapper.toEntityInfra(event);
+        EventEntity newEvent = eventRepository.save(eventEntity);
+        return eventEntityMapper.toEventCore(newEvent);
     }
 }
