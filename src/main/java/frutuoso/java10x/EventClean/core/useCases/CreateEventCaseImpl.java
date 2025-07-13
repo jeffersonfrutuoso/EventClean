@@ -13,6 +13,6 @@ public class CreateEventCaseImpl implements CreateEventCase{
 
     @Override
     public Event execute(Event event) {
-        return null;
+        return eventGateway.createEvent(event);
     }
 }
