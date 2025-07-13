@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class EventEntityMapper {
 
-    public EventEntity toEntity (Event event) {
+    public EventEntity toEntityInfra (Event event) {
         return new EventEntity(
                 event.id(),
                 event.name(),
@@ -21,7 +21,7 @@ public class EventEntityMapper {
         );
     }
 
-    public Event toEvent(EventEntity eventEntity) {
+    public Event toEventCore(EventEntity eventEntity) {
         return new Event(
                 eventEntity.getId(),
                 eventEntity.getName(),
