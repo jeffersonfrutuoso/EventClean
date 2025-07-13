@@ -4,9 +4,12 @@ import frutuoso.java10x.EventClean.core.useCases.CreateEventCase;
 import frutuoso.java10x.EventClean.core.useCases.SearchEventCase;
 import frutuoso.java10x.EventClean.infra.dtos.EventDto;
 import frutuoso.java10x.EventClean.infra.mapper.EventDtoMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -23,9 +26,12 @@ public class EventController {
     }
 
     @PostMapping("/create")
-   public EventDto create (@RequestBody EventDto eventDto){
+   public ResponseEntity<Map<String, Object>> create (@RequestBody EventDto eventDto){
         Event newEvent = createEventCase.execute(eventDtoMapper.toEventEntity(eventDto));
-        return eventDtoMapper.toEventDto(newEvent);
+        Map<String, Object> response = new HashMap<>();
+        response.put("Message: ", "Evento cadastrado com sucesso");
+        response.put("Dados: ", eventDtoMapper.toEventDto(newEvent));
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/listar")
