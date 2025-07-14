@@ -2,6 +2,7 @@ package frutuoso.java10x.EventClean.core.useCases;
 
 import frutuoso.java10x.EventClean.core.entities.Event;
 import frutuoso.java10x.EventClean.core.gateway.EventGateway;
+import frutuoso.java10x.EventClean.infra.exceptions.DuplicateEventException;
 
 public class CreateEventCaseImpl implements CreateEventCase{
 
@@ -13,6 +14,9 @@ public class CreateEventCaseImpl implements CreateEventCase{
 
     @Override
     public Event execute(Event event) {
+        if (eventGateway.indentifierExists(event.identifier())){
+            throw new DuplicateEventException("O evento com o identificador: " + event.identifier() + " ja existe");
+        }
         return eventGateway.createEvent(event);
     }
 }
