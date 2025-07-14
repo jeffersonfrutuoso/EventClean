@@ -1,11 +1,14 @@
 package frutuoso.java10x.EventClean.infra.gateway;
 import frutuoso.java10x.EventClean.core.entities.Event;
 import frutuoso.java10x.EventClean.core.gateway.EventGateway;
+import frutuoso.java10x.EventClean.infra.dtos.EventDto;
+import frutuoso.java10x.EventClean.infra.exceptions.DuplicateEventException;
 import frutuoso.java10x.EventClean.infra.mapper.EventEntityMapper;
 import frutuoso.java10x.EventClean.infra.persistence.EventEntity;
 import frutuoso.java10x.EventClean.infra.persistence.EventRepository;
 import org.springframework.stereotype.Component;
 import java.util.List;
+import java.util.Optional;
 
 
 @Component
@@ -30,5 +33,21 @@ public class EventRepositoryGateway implements EventGateway {
         EventEntity eventEntity = eventEntityMapper.toEntityInfra(event);
         EventEntity newEvent = eventRepository.save(eventEntity);
         return eventEntityMapper.toEventCore(newEvent);
+    }
+
+    @Override
+    public boolean indentifierExists(String identifier) {
+        return eventRepository.findAll().stream()
+                .anyMatch(event -> event.getIdentifier().equalsIgnoreCase(identifier));
+    }
+
+    @Override
+    public Optional<Event> filterForIdentifier(String identifier) {
+        return eventRepository.findByIdentifier(identifier);
+    }
+
+    @Override
+    public Optional<Event> filterForName(String name) {
+        return eventRepository.findByName(name);
     }
 }
