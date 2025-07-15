@@ -7,6 +7,7 @@ public interface EventGateway {
      Optional<Event> filterForIdentifier(String identifier);
      Optional<Event> filterForName(String name);
      Optional<Event> filterById(Long id);
+     void deleteById (Long id);
      public Event createEvent(Event event);
      public List<Event> listEvents();
      boolean indentifierExists(String identifier);
