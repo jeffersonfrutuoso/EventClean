@@ -1,9 +1,6 @@
 package frutuoso.java10x.EventClean.infra.controller;
 import frutuoso.java10x.EventClean.core.entities.Event;
-import frutuoso.java10x.EventClean.core.useCases.CreateEventCase;
-import frutuoso.java10x.EventClean.core.useCases.FilterIdentifierCase;
-import frutuoso.java10x.EventClean.core.useCases.FilterNameCase;
-import frutuoso.java10x.EventClean.core.useCases.SearchEventCase;
+import frutuoso.java10x.EventClean.core.useCases.*;
 import frutuoso.java10x.EventClean.infra.dtos.EventDto;
 import frutuoso.java10x.EventClean.infra.mapper.EventDtoMapper;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -21,13 +19,15 @@ public class EventController {
     private final SearchEventCase searchEventCase;
     private final FilterNameCase filterNameCase;
     private final FilterIdentifierCase filterIdentifierCase;
+    private final FilterByIdEventCase filterByIdEventCase;
 
-    public EventController(CreateEventCase createEventCase, EventDtoMapper eventDtoMapper, SearchEventCase searchEventCase, FilterNameCase filterNameCase, FilterIdentifierCase filterIdentifierCase) {
+    public EventController(CreateEventCase createEventCase, EventDtoMapper eventDtoMapper, SearchEventCase searchEventCase, FilterNameCase filterNameCase, FilterIdentifierCase filterIdentifierCase, FilterByIdEventCase filterByIdEventCase) {
         this.createEventCase = createEventCase;
         this.eventDtoMapper = eventDtoMapper;
         this.searchEventCase = searchEventCase;
         this.filterNameCase = filterNameCase;
         this.filterIdentifierCase = filterIdentifierCase;
+        this.filterByIdEventCase = filterByIdEventCase;
     }
 
     @PostMapping("/create")
@@ -58,4 +58,12 @@ public class EventController {
         Event event = filterNameCase.execute(name);
         return ResponseEntity.ok(event);
     }
+
+    @GetMapping("/listar/{id}")
+    public ResponseEntity<Event> searchForId(@PathVariable Long id){
+        Event event = filterByIdEventCase.execute(id);
+        return ResponseEntity.ok(event);
+    }
+
+
 }
