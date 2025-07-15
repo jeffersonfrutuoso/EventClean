@@ -36,4 +36,9 @@ public class BeansConfig {
     public DeleteByIdEventCase deleteByIdEventCase(EventGateway eventGateway){
         return new DeleteByIdCaseImpl(eventGateway);
     }
+
+    @Bean
+    public UpdateEventCase updateEventCase(EventGateway eventGateway){
+        return new UpdateEventeCaseImpl(eventGateway);
+    }
 }
