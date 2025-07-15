@@ -26,4 +26,9 @@ public class BeansConfig {
     public FilterNameCase filterNameCase(EventGateway eventGateway){
         return new FilterNameCaseImpl(eventGateway);
     }
+
+    @Bean
+    public FilterByIdEventCase filterByIdEventCase(EventGateway eventGateway){
+        return new FilterByIdEventCaseImpl(eventGateway);
+    }
 }
