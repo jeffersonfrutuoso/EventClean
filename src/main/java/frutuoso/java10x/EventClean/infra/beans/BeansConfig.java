@@ -31,4 +31,9 @@ public class BeansConfig {
     public FilterByIdEventCase filterByIdEventCase(EventGateway eventGateway){
         return new FilterByIdEventCaseImpl(eventGateway);
     }
+
+    @Bean
+    public DeleteByIdEventCase deleteByIdEventCase(EventGateway eventGateway){
+        return new DeleteByIdCaseImpl(eventGateway);
+    }
 }
