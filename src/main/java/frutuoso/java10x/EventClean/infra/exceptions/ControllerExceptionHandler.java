@@ -25,4 +25,12 @@ public class ControllerExceptionHandler{
         response.put("mensagem", "o identificador não foi encontrado, tente novamente");
         return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(NotFoundIdException.class)
+    public ResponseEntity<Map<String, String>> handlerNotFoundIdException (NotFoundIdException exception) {
+        Map<String, String> response = new HashMap<>();
+        response.put("error", exception.getMessage());
+        response.put("mensagem", "o id não foi encontrado, tente novamente");
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+    }
 }
