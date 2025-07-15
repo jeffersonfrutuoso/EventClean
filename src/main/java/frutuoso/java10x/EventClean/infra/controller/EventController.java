@@ -23,8 +23,9 @@ public class EventController {
     private final FilterIdentifierCase filterIdentifierCase;
     private final FilterByIdEventCase filterByIdEventCase;
     private final DeleteByIdEventCase deleteByIdEventCase;
+    private final UpdateEventCase updateEventCase;
 
-    public EventController(CreateEventCase createEventCase, EventDtoMapper eventDtoMapper, SearchEventCase searchEventCase, FilterNameCase filterNameCase, FilterIdentifierCase filterIdentifierCase, FilterByIdEventCase filterByIdEventCase, DeleteByIdEventCase deleteByIdEventCase) {
+    public EventController(CreateEventCase createEventCase, EventDtoMapper eventDtoMapper, SearchEventCase searchEventCase, FilterNameCase filterNameCase, FilterIdentifierCase filterIdentifierCase, FilterByIdEventCase filterByIdEventCase, DeleteByIdEventCase deleteByIdEventCase, UpdateEventCase updateEventCase) {
         this.createEventCase = createEventCase;
         this.eventDtoMapper = eventDtoMapper;
         this.searchEventCase = searchEventCase;
@@ -32,6 +33,7 @@ public class EventController {
         this.filterIdentifierCase = filterIdentifierCase;
         this.filterByIdEventCase = filterByIdEventCase;
         this.deleteByIdEventCase = deleteByIdEventCase;
+        this.updateEventCase = updateEventCase;
     }
 
     @PostMapping("/create")
@@ -43,6 +45,18 @@ public class EventController {
         return ResponseEntity.ok(response);
     }
 
+    @PutMapping("/atualizar/{id}")
+    public ResponseEntity<Map<String, Object>> UpdateEvent(@RequestBody EventDto eventDto, @PathVariable Long id){
+            Event newEvent = updateEventCase.execute(eventDtoMapper.toEventEntity(eventDto),id);
+            Map<String, Object> response = new HashMap<>();
+            response.put("Message: ", "Evento Atualizado com sucesso");
+            response.put("Dados: ", eventDtoMapper.toEventDto(newEvent));
+            if (newEvent != null){
+                return ResponseEntity.ok(response);
+            }
+            return null;
+    }
+
     @GetMapping("/listar")
     public List<EventDto> execute() {
         return searchEventCase.execute()
@@ -50,6 +64,8 @@ public class EventController {
                 .map(eventDtoMapper::toEventDto)
                 .collect(Collectors.toList());
     }
+
+
 
     @GetMapping("/identifier/{identifier}")
     public ResponseEntity<Event> searchForIdentifier(@PathVariable String identifier){

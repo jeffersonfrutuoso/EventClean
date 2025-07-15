@@ -61,4 +61,16 @@ public class EventRepositoryGateway implements EventGateway {
     public void deleteById(Long id) {
         eventRepository.deleteById(id);
     }
+
+    @Override
+    public Event updatedEvent(Event event, Long id) {
+        Optional<EventEntity> eventExist = eventRepository.findById(id);
+        if (eventExist.isPresent()){
+            EventEntity eventUpdated = eventEntityMapper.toEntityInfra(event);
+            eventUpdated.setId(id);
+            EventEntity newEvent = eventRepository.save(eventUpdated);
+            return eventEntityMapper.toEventCore(newEvent);
+        }
+        return null;
+    }
 }
