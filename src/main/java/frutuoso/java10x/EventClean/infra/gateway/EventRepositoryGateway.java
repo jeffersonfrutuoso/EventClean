@@ -56,4 +56,9 @@ public class EventRepositoryGateway implements EventGateway {
         Optional<EventEntity> eventForId =  eventRepository.findById(id);
         return eventForId.map(eventEntityMapper::toEventCore);
     }
+
+    @Override
+    public void deleteById(Long id) {
+        eventRepository.deleteById(id);
+    }
 }
