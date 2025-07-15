@@ -11,4 +11,5 @@ public interface EventGateway {
      public Event createEvent(Event event);
      public List<Event> listEvents();
      boolean indentifierExists(String identifier);
+     public Event updatedEvent(Event event, Long id);
 }
