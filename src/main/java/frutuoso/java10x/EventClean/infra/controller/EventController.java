@@ -2,7 +2,9 @@ package frutuoso.java10x.EventClean.infra.controller;
 import frutuoso.java10x.EventClean.core.entities.Event;
 import frutuoso.java10x.EventClean.core.useCases.*;
 import frutuoso.java10x.EventClean.infra.dtos.EventDto;
+import frutuoso.java10x.EventClean.infra.exceptions.NotFoundIdException;
 import frutuoso.java10x.EventClean.infra.mapper.EventDtoMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
@@ -20,14 +22,16 @@ public class EventController {
     private final FilterNameCase filterNameCase;
     private final FilterIdentifierCase filterIdentifierCase;
     private final FilterByIdEventCase filterByIdEventCase;
+    private final DeleteByIdEventCase deleteByIdEventCase;
 
-    public EventController(CreateEventCase createEventCase, EventDtoMapper eventDtoMapper, SearchEventCase searchEventCase, FilterNameCase filterNameCase, FilterIdentifierCase filterIdentifierCase, FilterByIdEventCase filterByIdEventCase) {
+    public EventController(CreateEventCase createEventCase, EventDtoMapper eventDtoMapper, SearchEventCase searchEventCase, FilterNameCase filterNameCase, FilterIdentifierCase filterIdentifierCase, FilterByIdEventCase filterByIdEventCase, DeleteByIdEventCase deleteByIdEventCase) {
         this.createEventCase = createEventCase;
         this.eventDtoMapper = eventDtoMapper;
         this.searchEventCase = searchEventCase;
         this.filterNameCase = filterNameCase;
         this.filterIdentifierCase = filterIdentifierCase;
         this.filterByIdEventCase = filterByIdEventCase;
+        this.deleteByIdEventCase = deleteByIdEventCase;
     }
 
     @PostMapping("/create")
@@ -65,5 +69,12 @@ public class EventController {
         return ResponseEntity.ok(event);
     }
 
-
+    @DeleteMapping("/deletar/{id}")
+    public ResponseEntity<String> deletar(@PathVariable Long id){
+        if (filterByIdEventCase.execute(id) != null){
+            deleteByIdEventCase.execute(id);
+            return ResponseEntity.ok("O evento com id: " + id + " foi deletado com sucesso");
+        }
+       return null;
+    }
 }
