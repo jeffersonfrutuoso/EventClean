@@ -53,8 +53,9 @@ public class EventController {
             response.put("Dados: ", eventDtoMapper.toEventDto(newEvent));
             if (newEvent != null){
                 return ResponseEntity.ok(response);
+            } else {
+                return null;
             }
-            return null;
     }
 
     @GetMapping("/listar")
@@ -64,8 +65,6 @@ public class EventController {
                 .map(eventDtoMapper::toEventDto)
                 .collect(Collectors.toList());
     }
-
-
 
     @GetMapping("/identifier/{identifier}")
     public ResponseEntity<Event> searchForIdentifier(@PathVariable String identifier){
